@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kheti Bazaar - Connecting Farmers & Buyers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        :root {
+            --primary-color: #198754;
+            --primary-dark: #146c43;
+            --primary-light: #27ae60;
+            --accent-color: #ffb703;
+            --text-dark: #2c3e50;
+            --text-light: #f8f9fa;
+            --bg-light: #f8f9fa;
+            --bg-dark: #121212;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .typing-container {
+            display: inline-block;
+            border-right: 4px solid white;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 3rem;
+            font-weight: bold;
+            animation: blink 0.8s step-end infinite;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 12px;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        .navbar {
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-scrolled {
+            background-color: rgba(0, 0, 0, 0.9) !important;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            padding: 8px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            position: relative;
+            margin: 0 5px;
+            color: white !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link[href="#signup"],
+        .nav-link[href="#login"] {
+            border-radius: 30px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link[href="#signup"] {
+            border: 2px solid var(--primary-color);
+        }
+
+        .nav-link[href="#signup"]:hover {
+            background-color: var(--primary-color);
+            color: white !important;
+            border-color: var(--primary-color);
+        }
+
+        .nav-link[href="#login"] {
+            background-color: var(--primary-color);
+            color: white !important;
+            border: 2px solid var(--primary-color);
+        }
+
+        .nav-link[href="#login"]:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+        }
+
+        .hero-section {
+            color: white;
+            padding: 180px 0 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .hero-video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/img/hero-image.jpg');
+            background-size: cover;
+            background-position: center;
+            display: none;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+            z-index: 0;
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-section .lead {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 20px auto 40px;
+            line-height: 1.6;
+        }
+
+        .btn-outline-success {
+            border-width: 2px;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn-outline-success:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(25, 135, 84, 0.3);
+        }
+
+        .features-section {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(25, 135, 84, 0.15);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .features-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .features-section p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .about-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.2;
+            transform: translate(150px, -150px);
+        }
+
+        .about-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.2;
+            transform: translate(-150px, 150px);
+        }
+
+        .about-section h2 {
+            color: var(--primary-dark);
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-section h2::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #495057;
+        }
+
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 30px 0;
+            border-top: 5px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer p {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .hero-section {
+                padding: 120px 0 100px;
+            }
+            
+            .typing-container {
+                font-size: 2.5rem;
+            }
+            
+            .features-section, .about-section {
+                padding: 70px 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 100px 0 80px;
+            }
+            
+            .typing-container {
+                font-size: 2rem;
+            }
+            
+            .hero-section .lead {
+                font-size: 1.2rem;
+            }
+            
+            .features-section, .about-section {
+                padding: 50px 0;
+            }
+            
+            .feature-card {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center text-success fw-bold" href="/">
+                <img src="/img/logo.png" alt="Kheti Bazaar Logo" class="logo-img">
+                Kheti Bazaar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="path.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-video-container">
+            <div class="hero-video-fallback"></div>
+            <video class="hero-video" autoplay muted loop playsinline id="hero-video">
+                <source src="farmer.mp4" type="video/mp4">
+                <source src="farmer2.mp4" type="video/webm">
+            </video>
+        </div>
+        <div class="container text-center" style="position: relative; z-index: 2;">
+            <h1 class="fw-bold typing-container" id="typing-text"></h1>
+            <p class="lead">
+                A smarter way to trade farm produce with direct connections and fair pricing.
+                Eliminating middlemen and creating a transparent marketplace that benefits farmers and consumers alike.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#features" class="btn btn-lg btn-success">Explore Features</a>
+                <a href="#about" class="btn btn-lg btn-outline-success">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features-section">
+        <div class="container text-center">
+            <h2 class="mb-5">Why Choose Kheti Bazaar?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Location-Based Discovery</h3>
+                        <p>Find nearby farmers and fresh produce with our smart location mapping system. Get access to the freshest local produce in your area.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Direct Communication</h3>
+                        <p>Connect with farmers and buyers without intermediaries. Negotiate prices, discuss produce quality, and arrange deliveries easily.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Simple & Secure</h3>
+                        <p>Easy-to-use platform ensuring trust and security for all transactions. Your information and transactions are always protected.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container text-center">
+            <h2>About Kheti Bazaar</h2>
+            <p>
+                Kheti Bazaar is a revolutionary web-based platform designed to eliminate middlemen
+                and empower farmers by providing direct access to buyers. Our goal is
+                to create a fair and transparent marketplace that benefits both
+                farmers and consumers. By connecting farmers directly with buyers,
+                we ensure better prices for farmers and fresher produce for consumers.
+            </p>
+            <div class="mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-box text-center">
+                            <h3 class="counter text-success">1000+</h3>
+                            <p>Farmers</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-box text-center">
+                            <h3 class="counter text-success">5000+</h3>
+                            <p>Buyers</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-box text-center">
+                            <h3 class="counter text-success">200+</h3>
+                            <p>Villages</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-box text-center">
+                            <h3 class="counter text-success">50+</h3>
+                            <p>Products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p>© 2025 Kheti Bazaar. All rights reserved.</p>
+                    <a href="/user-dashboard" class="btn btn-sm btn-success mt-2">Dashboard</a>
+                </div>
+                <div class="col-md-6">
+                    <div class="social-links text-center text-md-end">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/landing.js"></script>
+    <script>
+        // Typing animation
+        const text = "Empowering Farmers, Connecting Buyers";
+        let index = 0;
+        let isDeleting = false;
+        let speed = 100;
+        let textElement = document.getElementById("typing-text");
+
+        function typeEffect() {
+            if (!isDeleting && index < text.length) {
+                textElement.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeEffect, speed);
+            } else if (isDeleting && index > 0) {
+                textElement.innerHTML = text.substring(0, index - 1);
+                index--;
+                setTimeout(typeEffect, speed);
+            } else {
+                isDeleting = !isDeleting;
+                setTimeout(typeEffect, 1000);
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        window.onload = function() {
+            typeEffect();
+            setupVideoFallback();
+        };
+        
+        // Video fallback function
+        function setupVideoFallback() {
+            const video = document.getElementById('hero-video');
+            const fallback = document.querySelector('.hero-video-fallback');
+            
+            // Show fallback image if video fails to load or play
+            if (video) {
+                video.addEventListener('error', function() {
+                    showVideoFallback(fallback);
+                });
+                
+                // Also check if video data is available
+                if (video.readyState === 0) {
+                    video.addEventListener('loadeddata', function() {
+                        hideVideoFallback(fallback);
+                    });
+                    
+                    // Set a timeout in case video takes too long to load
+                    setTimeout(function() {
+                        if (video.readyState === 0) {
+                            showVideoFallback(fallback);
+                        }
+                    }, 2000);
+                }
+            }
+            
+            // Check for mobile devices where autoplay might be restricted
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                // Try to play the video
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Autoplay started
+                        hideVideoFallback(fallback);
+                    }).catch(error => {
+                        // Autoplay was prevented
+                        showVideoFallback(fallback);
+                    });
+                }
+            }
+        }
+        
+        function showVideoFallback(fallbackElement) {
+            if (fallbackElement) {
+                fallbackElement.style.display = 'block';
+            }
+        }
+        
+        function hideVideoFallback(fallbackElement) {
+            if (fallbackElement) {
+                fallbackElement.style.display = 'none';
+            }
+        }
+        
+        // Reveal animations on scroll
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.feature-card, .counter-box');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', revealOnScroll);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'939fe4ecfebd6776',t:'MTc0NjI3NjczMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Kheti Bazaar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo h2 {
+            color: #2e7d32;
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        nav a:hover {
+            color: #2e7d32;
+        }
+        
+        /* Hero Section with Video */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 1;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .cta-button:hover {
+            background-color: #1b5e20;
+        }
+        
+        /* Mission Section */
+        .mission {
+            padding: 5rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+        
+        .section-title {
+            color: #2e7d32;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #2e7d32;
+        }
+        
+        .mission-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            background-color: #f1f8e9;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Future Plans Section */
+        .future-plans {
+            padding: 5rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+        
+        .plans-container {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+        
+        .plan {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #2e7d32;
+            text-align: left;
+            background-color: #f9f9f9;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .plan h3 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .plan p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Team Section */
+        .team {
+            padding: 5rem 2rem;
+            background-color: #f1f8e9;
+            text-align: center;
+        }
+        
+        .team-container {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            transition: transform 0.3s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .member-img {
+            width: 100%;
+            height: 280px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .member-img i {
+            font-size: 5rem;
+            color: #999;
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .member-info p {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: #2e7d32;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #1b5e20;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo h3 {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .footer-about p {
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        .footer-links h4, .footer-contact h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-links h4::after, .footer-contact h4::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #2e7d32;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #2e7d32;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .logo h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card, .plan, .team-member {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="img/logo.png" alt="Kheti Bazaar Logo">
+            <h2>Kheti Bazaar</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="landing.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Video -->
+    <section class="hero">
+        <video autoplay muted loop>
+            <source src="farmer2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Connecting Farmers & Buyers Directly</h1>
+            <p>At Kheti Bazaar, we're bridging the gap between farmers and consumers by eliminating middlemen, ensuring fair prices for both farmers and buyers while providing access to fresh produce.</p>
+            <a href="#" class="cta-button">Join Our Community</a>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission">
+        <h2 class="section-title">Our Mission</h2>
+        <div class="mission-content">
+            <p>Kheti Bazaar was founded with a clear vision: to transform agricultural commerce by creating a direct connection between farmers and buyers. We believe that by eliminating intermediaries, we can ensure that farmers receive fair compensation for their hard work while buyers gain access to fresh, high-quality produce at reasonable prices.</p>
+            <p>Our platform is designed to be simple yet powerful, focusing on the needs of both farmers and consumers. By leveraging modern technology, we're making it easier than ever for farmers to showcase their products and for buyers to find exactly what they're looking for, all while supporting local agriculture and sustainable farming practices.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">What We Offer</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3>Easy Registration</h3>
+                <p>Simple sign-up process for both farmers and buyers with streamlined profile creation that takes just minutes to complete.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-list"></i>
+                </div>
+                <h3>Product Listings</h3>
+                <p>Farmers can easily upload their products with detailed descriptions, quantities, and availability information.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Location-Based Search</h3>
+                <p>Find nearby farmers using our geolocation feature, making it easier to source local produce without traveling far.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Direct Messaging</h3>
+                <p>Communicate directly with farmers or buyers through our built-in messaging system to discuss products, prices, and pickups.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>Fair Pricing</h3>
+                <p>By eliminating middlemen, we ensure farmers get better returns while buyers pay fair prices for fresh products.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Friendly</h3>
+                <p>Access our platform from anywhere using any device with our responsive web design optimized for mobile use.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Plans Section -->
+    <section class="future-plans">
+        <h2 class="section-title">Future Enhancements</h2>
+        <div class="plans-container">
+            <div class="plan">
+                <h3><i class="fas fa-credit-card"></i> Payment Processing Integration</h3>
+                <p>We're working on implementing secure payment gateways to enable online transactions directly on our platform.</p>
+            </div>
+            <div class="plan">
+                <h3><i class="fas fa-filter"></i> Advanced Search & Filtering</h3>
+                <p>Soon you'll be able to find products using advanced filters for price, category, ratings, and availability.</p>
+            </div>
+            <div class="plan">
+                <h3><i class="fas fa-truck"></i> Delivery & Logistics Services</h3>
+                <p>Future updates will include partnerships with delivery services to streamline transportation of goods from farmers to buyers.</p>
+            </div>
+            <div class="plan">
+                <h3><i class="fas fa-chart-line"></i> Data Analytics & AI Recommendations</h3>
+                <p>We plan to implement analytics to help farmers track demand trends and AI-powered recommendations for buyers based on preferences.</p>
+            </div>
+            <div class="plan">
+                <h3><i class="fas fa-globe"></i> Multi-Language Support</h3>
+                <p>To make our platform more accessible, we're working on adding support for multiple languages.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <h2 class="section-title">Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <div class="member-img">
+
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Sushan D Jain</h3>
+                    <p>Member</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-img">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Bhavish K</h3>
+                    <p>Member</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-img">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Kushanth M T</h3>
+                    <p>Member</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="member-img">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="member-info">
+                    <h3>M S Tharun Kumar</h3>
+                    <p>Member</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <img src="img/logo.png" alt="Kheti Bazaar Logo">
+                    <h3>Kheti Bazaar</h3>
+                </div>
+                <p>Bridging the gap between farmers and consumers, ensuring fair prices and fresh produce for all.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Farmers</a></li>
+                    <li><a href="#">Buyers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>123 Agri Lane, Farmville, Rural District</p>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-phone"></i>
+                    <p>+91 98765 43210</p>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@khetibazaar.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Kheti Bazaar. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
