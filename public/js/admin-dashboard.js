@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editUserId').value = id;
         document.getElementById('editUsername').value = username;
         document.getElementById('editEmail').value = email;
-        document.getElementById('editPhone').value = phone;
+        document.getElementById('editPhone').value = phone || '';
         document.getElementById('editRole').value = role;
         const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
         modal.show();
@@ -195,10 +195,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('editUserForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('editUserId').value;
-        const username = document.getElementById('editUsername').value;
-        const email = document.getElementById('editEmail').value;
-        const phone = document.getElementById('editPhone').value;
+        const username = document.getElementById('editUsername').value.trim();
+        const email = document.getElementById('editEmail').value.trim();
+        const phone = document.getElementById('editPhone').value.trim();
         const role = document.getElementById('editRole').value;
+
+        // Basic validation
+        if (!username || !email || !role) {
+            alert('Username, email, and role are required');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+
         try {
             const response = await fetch(`/api/admin/users/${id}`, {
                 method: 'PUT',

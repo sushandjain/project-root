@@ -276,15 +276,27 @@ router.post('/verify-reset-token', (req, res) => {
     });
 });
 
-// Reset password route
+// Reset password route - ENHANCED
 router.post('/reset-password', async (req, res) => {
     const { email, token, password, type } = req.body;
     
     if (!email || !token || !password || !type) {
+        console.log('Missing required fields:', { email, token, password, type });
         return res.status(400).json({ error: 'Email, token, password, and type are required' });
     }
     
+    if (password.length < 6) {
+        console.log('Password too short:', password.length);
+        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+    }
+
     try {
+        // Validate user type
+        if (!['farmer', 'buyer'].includes(type)) {
+            console.log('Invalid user type:', type);
+            return res.status(400).json({ error: 'Invalid user type' });
+        }
+
         // First get the user ID
         db.query('SELECT id FROM farmers WHERE email = ? AND role = ?', [email, type], async (err, results) => {
             if (err) {
@@ -293,10 +305,12 @@ router.post('/reset-password', async (req, res) => {
             }
             
             if (results.length === 0) {
+                console.log('No user found:', { email, type });
                 return res.status(400).json({ error: 'Invalid email or user type' });
             }
             
             const userId = results[0].id;
+            console.log('User found:', { userId, email, type });
             
             // Verify the token
             db.query(
@@ -309,8 +323,11 @@ router.post('/reset-password', async (req, res) => {
                     }
                     
                     if (results.length === 0) {
+                        console.log('Invalid or expired token:', { userId, type, token });
                         return res.status(400).json({ error: 'Invalid or expired reset token' });
                     }
+                    
+                    console.log('Token verified successfully:', { userId, type, token });
                     
                     // Hash the new password
                     const salt = await bcrypt.genSalt(10);
@@ -326,10 +343,20 @@ router.post('/reset-password', async (req, res) => {
                                 return res.status(500).json({ error: 'Database error: ' + err.message });
                             }
                             
-                            // Delete the used token
-                            db.query('DELETE FROM reset_tokens WHERE user_id = ? AND user_type = ?', [userId, type]);
+                            console.log('Password updated successfully for user:', userId);
                             
-                            res.json({ message: 'Password reset successful' });
+                            // Delete the used token
+                            db.query(
+                                'DELETE FROM reset_tokens WHERE user_id = ? AND user_type = ?',
+                                [userId, type],
+                                (err) => {
+                                    if (err) {
+                                        console.error('Error deleting used token:', err);
+                                    }
+                                    console.log('Reset token deleted for user:', userId);
+                                    res.json({ message: 'Password reset successful' });
+                                }
+                            );
                         }
                     );
                 }

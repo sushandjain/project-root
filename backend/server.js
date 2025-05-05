@@ -47,7 +47,7 @@ const uploadsPath = path.join(__dirname, '../Uploads');
 console.log('Serving Uploads directory from:', uploadsPath);
 if (!fs.existsSync(uploadsPath)) {
     console.log('Uploads directory does not exist, creating it...');
-    fs.mkdirSync(uploadsPath, { recursive: true });
+    fs.mkdirSync(UploadsPath, { recursive: true });
 }
 app.use('/Uploads', express.static(uploadsPath));
 
@@ -85,10 +85,9 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         if (!file) {
-            return cb(null, ''); // No file provided, return empty filename
+            return cb(null, '');
         }
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        // Fix: Change file.originalName to file.originalname (lowercase 'n')
         cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
@@ -209,7 +208,6 @@ app.post('/api/products', authenticateFarmer, (req, res) => {
             const imageUrl = req.file ? req.file.filename : null;
             const farmerId = req.user.id;
 
-            // Enhanced validation logging
             console.log('Validating fields:', {
                 productName, quantity: parsedQuantity, price: parsedPrice, category,
                 harvestDate, latitude: parsedLatitude, longitude: parsedLongitude,
@@ -291,7 +289,6 @@ app.get('/api/products/:id', authenticateUser, (req, res) => {
             longitude: product.longitude,
             harvestDate: product.harvest_date ? product.harvest_date.toISOString().split('T')[0] : null,
             imageUrl: product.image_url ? `/Uploads/${product.image_url}` : '/img/placeholder.jpg',
-            address: product.address,
             created_at: product.created_at,
             category: product.category,
             isOutdated: isOutdated
@@ -425,7 +422,7 @@ app.get('/api/admin/products', authenticateAdmin, (req, res) => {
     });
 });
 
-// New route to fetch users for admin dashboard
+// Fetch users for admin dashboard
 app.get('/api/admin/users', authenticateAdmin, (req, res) => {
     const query = `
         SELECT id, username, email, phone, role
@@ -446,6 +443,66 @@ app.get('/api/admin/users', authenticateAdmin, (req, res) => {
             role: user.role
         }));
         res.json(users);
+    });
+});
+
+// Update user (Admin)
+app.put('/api/admin/users/:id', authenticateAdmin, (req, res) => {
+    const userId = req.params.id;
+    const { username, email, phone, role } = req.body;
+
+    if (!username || !email || !role) {
+        console.log('Missing required fields for user update:', { username, email, role });
+        return res.status(400).json({ error: 'Username, email, and role are required' });
+    }
+
+    if (!['farmer', 'buyer'].includes(role)) {
+        console.log('Invalid role:', role);
+        return res.status(400).json({ error: 'Invalid role: Must be farmer or buyer' });
+    }
+
+    const query = `
+        UPDATE farmers SET
+            username = ?,
+            email = ?,
+            phone = ?,
+            role = ?
+        WHERE id = ?
+    `;
+    const values = [username, email, phone || null, role, userId];
+
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Error updating user:', err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ error: 'Username or email already exists' });
+            }
+            return res.status(500).json({ error: 'Database error: ' + err.message });
+        }
+        if (result.affectedRows === 0) {
+            console.log('User not found:', userId);
+            return res.status(404).json({ error: 'User not found' });
+        }
+        console.log('User updated successfully:', userId);
+        res.json({ message: 'User updated successfully' });
+    });
+});
+
+// Delete user (Admin)
+app.delete('/api/admin/users/:id', authenticateAdmin, (req, res) => {
+    const userId = req.params.id;
+
+    db.query('DELETE FROM farmers WHERE id = ?', [userId], (err, result) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            return res.status(500).json({ error: 'Database error: ' + err.message });
+        }
+        if (result.affectedRows === 0) {
+            console.log('User not found:', userId);
+            return res.status(404).json({ error: 'User not found' });
+        }
+        console.log('User deleted successfully:', userId);
+        res.json({ message: 'User deleted successfully' });
     });
 });
 
